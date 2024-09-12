@@ -22,11 +22,11 @@ export default function TodoItem({item, todos, setTodos}){
                     onChange={() => handleClick(item.name)}
                     />
                 </label>
-                <span>
+                <span className={item.done ? 'completed' : ''}>
                     {item.name}
                 </span>
                 <span>
-                    <button onClick={() => handleDelete(item)}>x</button>
+                    <button className="deleteTodo" onClick={() => handleDelete(item)}>x</button>
                 </span>
             </div>
             <hr />

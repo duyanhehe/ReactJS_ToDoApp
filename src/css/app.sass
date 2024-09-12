@@ -1,17 +1,40 @@
-*
+$font: Arial, Helvetica, sans-serif
+$primary-color: #B83F45
+$secondary-color: #808080
+
+body
   margin:0
   padding: 0
   box-sizing: border-box
-  font-family: Arial, Helvetica, sans-serif
-
-
-body
+  font-family: $font
   height: 100vh
+  display: flex
+  justify-content: center
+  // align-items: center
 
-header
-    display: flex
-    justify-content: center
-    align-items: center
-    color: #B83F45
-    font-size: 16px
-    background: #f1f1f1
+.header
+  color: #B83F45
+  font-size: 50px
+  text-align: center
+  padding: 20px 0px
+
+input 
+    flex: 1
+    padding: 16px 16px 16px 32px
+    border: 1px solid #ddd
+    border-radius: 3px
+    // width: 300px
+
+.completed
+  text-decoration: line-through
+  color: $secondary-color
+
+.deleteTodo
+  float: right
+  background-color: #ffffff
+  border: none
+  cursor: pointer
+  color: $secondary-color
+
+.deleteTodo:hover
+  color: $primary-color

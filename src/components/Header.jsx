@@ -1,8 +1,8 @@
-import styles from "./header.component.sass"
+import "../css/app.sass"
 
 export default function Header () {
     return(
-        <div className={styles.header}>
+        <div className="header">
             todos
         </div>
     )

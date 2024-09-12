@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../css/app.sass"
 
 export default function Form({ todos, setTodos }){
     const [todo, setTodo] = useState({name:"", done:false});
@@ -13,10 +14,12 @@ export default function Form({ todos, setTodos }){
     }
 
     return(
-        <form onSubmit={handleSubmit}>
-            <div>
-                <input onChange={(e) => setTodo({name:e.target.value, done:false})} value={todo.name} type="text" placeholder="What needs to be done?" />
-            </div>
-        </form>
+        <div>
+            <form onSubmit={handleSubmit} className="inputContainer">
+                <div>
+                    <input className="inputField" onChange={(e) => setTodo({name:e.target.value, done:false})} value={todo.name} type="text" placeholder="What needs to be done?" />
+                </div>
+            </form>
+        </div>
     )
 }
