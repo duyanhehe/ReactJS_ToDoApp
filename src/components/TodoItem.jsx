@@ -5,19 +5,22 @@ export default function TodoItem({item, todos, setTodos}){
     const [isEditing, setIsEditing] = useState(false);
     const [newTodo, setNewTodo] = useState(item.name);
 
+    // Handle deleting a todo
     function handleDelete(item){
-        console.log(item);
         setTodos(todos.filter((todo) => todo !== item));
     }
 
+    // Handle toggling the "done" status of a todo
     function handleClick(name){
         setTodos(todos.map((todo) => todo.name === name? {...todo, done:!todo.done} : todo));
     }
 
+    // Handle double-click to edit
     function handleDoubleClick(){
         setIsEditing(true);
     }
 
+    // Handle blur (finish editing) or pressing "Enter"
     function handleBlur() {
         if (newTodo.trim() === '') return;
         setTodos(todos.map((todo) => todo.name === item.name ? { ...todo, name: newTodo} : todo));
