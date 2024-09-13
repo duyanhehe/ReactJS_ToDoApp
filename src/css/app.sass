@@ -29,12 +29,27 @@ input
   text-decoration: line-through
   color: $secondary-color
 
+.todosContainer
+    flex: 1
+    padding: 16px
+    border: 1px solid #ddd
+    border-radius: 3px
+
+.todoItem
+  position: relative
+
 .deleteTodo
   float: right
   background-color: #ffffff
   border: none
   cursor: pointer
   color: $secondary-color
+  display: none
+
+.todoItem:hover .deleteTodo
+  display: block
 
 .deleteTodo:hover
   color: $primary-color
+
+  
