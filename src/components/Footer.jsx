@@ -11,7 +11,7 @@ export default function Footer({todos, setTodos}){
 
 
     return(
-        <div>
+        <div className="footer">
             <span>
                 {todosLeft} items left!
             </span>
@@ -20,7 +20,9 @@ export default function Footer({todos, setTodos}){
                 <a href="#" onClick={() => setFilter("active")}>Active</a>
                 <a href="#" onClick={() => setFilter("completed")}>Completed</a>
             </nav> */}
-            <button onClick={deleteCompletedTodos}>Clear completed</button>
+            <button className="clearCompleted" onClick={deleteCompletedTodos}>
+                Clear completed
+            </button>
         </div>
     )
 }

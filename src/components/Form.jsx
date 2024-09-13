@@ -20,19 +20,28 @@ export default function Form({ todos, setTodos }){
 
     return(
         <div>
-            {/* Conditionally render the checkbox if there are any todos */}
-            {todos.length > 0 && (
-                <div>
-                    <input 
-                        type="checkbox" 
-                        onChange={handleCompleteAll} 
-                        checked={todos.every(todo => todo.done)} 
-                    />
-                </div>
-            )}
             <form onSubmit={handleSubmit}>
-                <div>
-                    <input className="inputField" onChange={(e) => setTodo({name:e.target.value, done:false})} value={todo.name} type="text" placeholder="What needs to be done?" />
+                <div className="inputContainer">
+                    {/* Conditionally render the checkbox if there are any todos */}
+                    {todos.length > 0 && (
+                        <div>
+                            <input 
+                                type="checkbox" 
+                                onChange={handleCompleteAll} 
+                                checked={todos.every(todo => todo.done)}
+                                className="completeAllCheckbox" 
+                            />
+                        </div>
+                    )}
+                    <div>
+                        <input
+                            onChange={(e) => setTodo({name:e.target.value, done:false})}
+                            value={todo.name}
+                            type="text"
+                            placeholder="What needs to be done?"
+                             className="inputField"
+                        />
+                    </div>
                 </div>
             </form>
         </div>

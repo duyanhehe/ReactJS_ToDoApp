@@ -36,13 +36,13 @@ export default function TodoItem({item, todos, setTodos}){
     return(
         <div onDoubleClick={handleDoubleClick} className="todosContainer">
             <div className="todoItem">
-                <label>
-                    <input
-                    type="checkbox"
-                    checked={item.done}
-                    onChange={() => handleClick(item.name)}
-                    />
-                </label>
+                <input
+                type="checkbox"
+                checked={item.done}
+                onChange={() => handleClick(item.name)}
+                className="completeCheckbox"
+                />
+                <div className="todoText">
                 {isEditing ? (
                     <input
                         type="text"
@@ -53,13 +53,14 @@ export default function TodoItem({item, todos, setTodos}){
                         autoFocus
                     />
                 ) : (
-                    <span className={item.done ? 'completed' : ''}>
+                    <div className={item.done ? 'completed' : ''}>
                         {item.name}
-                    </span>
+                    </div>
                 )}
-                <span>
+                </div>
+                <div>
                     <button className="deleteTodo" onClick={() => handleDelete(item)}>x</button>
-                </span>
+                </div>
             </div>
         </div>
     )
