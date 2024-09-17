@@ -1,18 +1,34 @@
 import "../css/app.sass"
 import { useState } from "react";
+import { doc, updateDoc, deleteDoc } from "firebase/firestore";
+import db from "../firebase";
 
 export default function TodoItem({item, todos, setTodos}){
     const [isEditing, setIsEditing] = useState(false);
     const [newTodo, setNewTodo] = useState(item.name);
 
     // Handle deleting a todo
-    function handleDelete(item){
-        setTodos(todos.filter((todo) => todo !== item));
+    async function handleDelete(item){
+        try {
+            // Delete from Firestore
+            await deleteDoc(doc(db, "todo", item.id));
+        } catch (error) {
+            console.error("Error deleting todo: ", error);
+        }
     }
 
     // Handle toggling the "done" status of a todo
-    function handleClick(name){
-        setTodos(todos.map((todo) => todo.name === name? {...todo, done:!todo.done} : todo));
+    async function handleClick(id) {
+        const todoRef = doc(db, "todo", id);
+        const updatedDone = !item.done;
+        try {
+            // Update Firestore
+            await updateDoc(todoRef, { done: updatedDone });
+            // Update local state
+            setTodos(todos.map((todo) => (todo.id === id ? { ...todo, done: updatedDone } : todo)));
+        } catch (error) {
+            console.error("Error updating todo: ", error);
+        }
     }
 
     // Handle double-click to edit
@@ -21,10 +37,18 @@ export default function TodoItem({item, todos, setTodos}){
     }
 
     // Handle blur (finish editing) or pressing "Enter"
-    function handleBlur() {
+    async function handleBlur() {
         if (newTodo.trim() === '') return;
-        setTodos(todos.map((todo) => todo.name === item.name ? { ...todo, name: newTodo} : todo));
-        setIsEditing(false);
+        const todoRef = doc(db, "todo", item.id);
+        try {
+            // Update the todo name in Firestore
+            await updateDoc(todoRef, { name: newTodo });
+            // Update local state
+            setTodos(todos.map((todo) => (todo.id === item.id ? { ...todo, name: newTodo } : todo)));
+            setIsEditing(false);
+        } catch (error) {
+            console.error("Error updating todo name: ", error);
+        }
     }
 
     function handleKeyDown(e) {
@@ -39,7 +63,7 @@ export default function TodoItem({item, todos, setTodos}){
                 <input
                 type="checkbox"
                 checked={item.done}
-                onChange={() => handleClick(item.name)}
+                onChange={() => handleClick(item.id)}
                 className="completeCheckbox"
                 />
                 <div className="todoText">

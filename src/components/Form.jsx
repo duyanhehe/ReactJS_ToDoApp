@@ -1,16 +1,25 @@
 import { useState } from "react";
 import "../css/app.sass"
+import { addDoc, collection } from "firebase/firestore";
+import db from '../firebase';
 
 export default function Form({ todos, setTodos }){
     const [todo, setTodo] = useState({name:"", done:false});
 
-    function handleSubmit(e) {
+    async function handleSubmit(e) {
         e.preventDefault();
         if (todo.name.trim() === ""){
             return;
         }
-        setTodos([...todos, todo]);
-        setTodo({name:"", done:false});
+        try {
+            const docRef = await addDoc(collection(db, "todo"), todo);
+            console.log("Todo added with ID: ", docRef.id);
+
+            setTodos([...todos, {...todo, id: docRef.id }]);
+            setTodo({name:"", done:false});
+        }   catch (e) {
+            console.error(e);
+        }
     }
 
     function handleCompleteAll(e) {
