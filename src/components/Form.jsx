@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "../css/app.sass"
-import { addDoc, collection } from "firebase/firestore";
+import { addDoc, collection, updateDoc, doc } from "firebase/firestore";
 import db from '../firebase';
 
 export default function Form({ todos, setTodos }){
@@ -23,7 +23,20 @@ export default function Form({ todos, setTodos }){
     }
 
     function handleCompleteAll(e) {
-        const updatedTodos = todos.map(t => ({ ...t, done: e.target.checked}));
+        const isChecked = e.target.checked;
+
+        // Update the Firestore for each todo
+        todos.forEach(async (todo) => {
+            try {
+                const todoRef = doc(db, "todo", todo.id);
+                await updateDoc(todoRef, { done: isChecked });
+            } catch (error) {
+                console.error("Error updating todo status in Firestore: ", error);
+            }
+        });
+    
+        // Update local state
+        const updatedTodos = todos.map(t => ({ ...t, done: isChecked }));
         setTodos(updatedTodos);
     }
 

@@ -10,8 +10,8 @@ export default function TodoItem({item, todos, setTodos}){
     // Handle deleting a todo
     async function handleDelete(item){
         try {
-            // Delete from Firestore
             await deleteDoc(doc(db, "todo", item.id));
+            setTodos(todos.filter(todo => todo.id !== item.id));
         } catch (error) {
             console.error("Error deleting todo: ", error);
         }
@@ -22,9 +22,7 @@ export default function TodoItem({item, todos, setTodos}){
         const todoRef = doc(db, "todo", id);
         const updatedDone = !item.done;
         try {
-            // Update Firestore
             await updateDoc(todoRef, { done: updatedDone });
-            // Update local state
             setTodos(todos.map((todo) => (todo.id === id ? { ...todo, done: updatedDone } : todo)));
         } catch (error) {
             console.error("Error updating todo: ", error);
@@ -41,9 +39,7 @@ export default function TodoItem({item, todos, setTodos}){
         if (newTodo.trim() === '') return;
         const todoRef = doc(db, "todo", item.id);
         try {
-            // Update the todo name in Firestore
             await updateDoc(todoRef, { name: newTodo });
-            // Update local state
             setTodos(todos.map((todo) => (todo.id === item.id ? { ...todo, name: newTodo } : todo)));
             setIsEditing(false);
         } catch (error) {
